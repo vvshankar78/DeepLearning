@@ -7,7 +7,7 @@
 <br/>
 
 
-This repository consist of all the assignments solved for The School of AI - EVA 5.0.
+This repository consist of all the assignments solved as part of **The School of AI - EVA 5.0.**
 
 Repository: https://github.com/vvshankar78/DeepLearning
 
