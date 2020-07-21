@@ -1,4 +1,4 @@
-# My app 1
+# My app 2
 This is my first python project
 
 
