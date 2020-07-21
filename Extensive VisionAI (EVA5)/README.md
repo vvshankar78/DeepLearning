@@ -1,12 +1,15 @@
 
 <div align="center">
 <img src=https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI%20(EVA5)/Vision%20AI%20Logo.jpg?raw=true >
+<
 </div>
+
+<br/>
 
 
 This repository consist of all the assignments solved for The School of AI - EVA 5.0.
 
- Repository: https://github.com/vvshankar78/DeepLearning
+Repository: https://github.com/vvshankar78/DeepLearning
 
 --
 
