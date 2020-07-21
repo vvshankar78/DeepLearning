@@ -2,6 +2,7 @@
 
 <h3 align="center"> Team Members: Prasad, Dheeraj, Rajesh, Vidhya Shankar </h3>
 
+---
 
 **What are Channels and Kernels?**
 
@@ -79,7 +80,9 @@ At the core of the DNN architecture is operations like activation, drop outs, co
 </div>
 
 
-Ref:
+
+Reference:
+
 https://towardsdatascience.com/weight-initialization-techniques-in-neural-networks-26c649eb3b78
 
 https://medium.com/usf-msds/deep-learning-best-practices-1-weight-initialization-14e5c0295b94
