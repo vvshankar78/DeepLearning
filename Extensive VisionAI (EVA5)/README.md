@@ -11,7 +11,7 @@ This repository consist of all the assignments solved for The School of AI - EVA
 
 Repository: https://github.com/vvshankar78/DeepLearning
 
-
+---
 
  1. [Python Basics](https://github.com/vvshankar78/DeepLearning/tree/master/Extensive%20VisionAI%20(EVA5)/01_Python_Basics)
 
