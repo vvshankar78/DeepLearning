@@ -18,3 +18,4 @@ Repository: https://github.com/vvshankar78/DeepLearning
      This section gets you introduced to the basics of Python topics like functions, numpy, classes, slicing, image processing and applying opencv filters which are important programming concepts as we progress into the other parts of the course which would also involve programming using pytorch.
 
      Apart from python basics, this section also covers the basics of Convolution Neural networks, kernals and the intuition behind the convolutions and why 3x3 kernal are most appropriate for convolutions at this point in time.
+     

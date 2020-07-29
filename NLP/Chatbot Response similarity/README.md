@@ -21,6 +21,14 @@
  - `label` - Either 0 or 1. `0` means `sentence1` and `sentence2` are not similar. `1` means `sentence1` and `sentence2` are similar
 
  Approach
- 1.	Pre-process your data, split it to test and evaluation.
- 2.	Build your model ,  you can use pre-trained models
- 3.	Predict on test data
+
+ Problem statement is that we would like to classify if the 2 texts are similar or not. Since the training data is already labels, this makes it a supervised learning classification problem.
+
+ Approach: The approach I am using is that I am concating both the sentences and making it as a single sentence. This is captured when we build a datablock using fastai. It concats the sentenses with a marker.
+
+ Also, Fast ai takes care of the preprocessing like tokenization, numericalization creating databunch.
+
+ Model:
+ Language Model: learn the language using a pre-trained model(wiki) and add the chat sentences to it and create an updated language model.
+
+ Classification model: build a classification model based on the vocab used in language model
