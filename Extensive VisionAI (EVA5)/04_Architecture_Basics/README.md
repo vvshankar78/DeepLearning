@@ -87,7 +87,13 @@ Go Deeper - Remove Padding and increase parameters (channels)
   accuracy - 99.47 % -
 
 ----------------------------------------
+**Code Link**
 
+colab - https://drive.google.com/file/d/1dsEGp_ku6r4K40RYcnT71Qm5lRmtuHjH/view?usp=sharing
+
+github - https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI%20(EVA5)/04_Architecture_Basics/Architectural_Basics.ipynb
+
+-------------------
 
 **ASK OF THE ASSIGNMENT**
 
