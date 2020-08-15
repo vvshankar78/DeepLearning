@@ -37,6 +37,7 @@ The solution to identifying the right architecture that achieves the accuracy of
   number of Epochs - 10
 
   Accuracy - 99%
+  
 ------------
 
 3. Name: Net 3
@@ -59,7 +60,8 @@ The solution to identifying the right architecture that achieves the accuracy of
 
   number of epochs -20
 
-  accuracy - 99.16 % -
+  accuracy - 99.16 % 
+  
 ---------------------
 
 5. Name: Net 5
