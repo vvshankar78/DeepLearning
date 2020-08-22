@@ -86,6 +86,6 @@ The solution to identifying the right architecture and combination of convolutio
 
 colab - https://drive.google.com/file/d/18VxQg-pP5CaLEpGe4sOWdz8octcr5nxw/view?usp=sharing
 
-github - https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI%20(EVA5)/04_Architecture_Basics/Architectural_Basics.ipynb
+github - https://github.com/vvshankar78/DeepLearning/tree/master/Extensive%20VisionAI%20(EVA5)/05_Coding%20DrillDown
 
 -------------------
