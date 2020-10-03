@@ -4,6 +4,8 @@ import torch.nn.functional as F
 
 # dropout_value = 0.05
 
+# This is to test out the syncing the google drive.
+
 
 class Net(nn.Module):
     def __init__(self, dropout_value=0.05, input_ch=3):
