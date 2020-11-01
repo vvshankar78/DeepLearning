@@ -28,7 +28,7 @@ The objective of this assignment is to build depth map, surface planes and bound
  https://drive.google.com/drive/folders/1AX8oEpVVO2ixVp-WF_PSnhcpKNpMhL2J
 
  ##### Depth Images (MIDAS)
- https://drive.google.com/drive/folders/1AX8oEpVVO2ixVp-WF_PSnhcpKNpMhL2J
+https://drive.google.com/drive/folders/1-Am6Naqqtfb2KuCc8_WAJaSUNw14dFds
 
 
 ##### Github Links
