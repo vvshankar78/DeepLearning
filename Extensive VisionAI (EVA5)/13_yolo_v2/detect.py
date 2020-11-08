@@ -166,7 +166,7 @@ if __name__ == '__main__':
     parser.add_argument('--cfg', type=str, default='cfg/yolov3-hat.cfg', help='*.cfg path')
     parser.add_argument('--names', type=str, default='data/YoloV3_Dataset/classes.txt', help='*.names path')
     parser.add_argument('--weights', type=str, default='weights/last.pt', help='weights path')
-    parser.add_argument('--source', type=str, default='data/vid-samples2', help='source')  # input file/folder, 0 for webcam
+    parser.add_argument('--source', type=str, default='data/samples', help='source')  # input file/folder, 0 for webcam
     parser.add_argument('--output', type=str, default='output', help='output folder')  # output folder
     parser.add_argument('--img-size', type=int, default=512, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.3, help='object confidence threshold')
