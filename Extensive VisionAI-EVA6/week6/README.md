@@ -1,5 +1,5 @@
 # Submission for Week 6 - Normalization and Regularization
-[TOC]
+
 
 ## Objective:
 
