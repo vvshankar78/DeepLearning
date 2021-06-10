@@ -1,6 +1,12 @@
 # Submission for Week 6 - Normalization and Regularization
 
 
+## Team Members
+
+Vidya Shankar, Bhaskar Gaur
+
+
+
 ### Objective:
 
 ---
@@ -86,81 +92,74 @@ The code for L1 and L2 regularization goes as a part of train function is provid
 
 
 
+### Results:
 
+---
 
-[CODE](https://github.com/MittalNeha/Extensive_Vision_AI6/blob/main/week5/Session_5_Bhaskar_exp1.ipynb)
-
-1. Make a light model with less than 10k parameters to train MNIST
-
-2. Results:
-
-   Trained three different models architectures here, for the final model
-
-   - Parameters: **6,866**
-   - Best Train Accuracy: **97.97**%
-   - Best Test Accuracy: **97.59**%
-
-3. Analysis: 
+1. ##### Network with Group Normalization
 
    ```
-   First two layer for receptive field of 5 were reduced from 16->32 to 8->16, to reduce parameter count.
-   The channel count of 32 is reduced to 20 in order to reduce parameter count below 8K. We are aiming for bonus and we dont see any major dip in the model characteristics.
+   # Input parameters for the model
+   EPOCHS = 20
+   l1_decay=0.0
+   l2_decay=0.0
+   norm_type = "GN" -----> LAYER NORMALIZATION
+   num_groups=2
+   input_img_size=(1, 28, 28)
    
-   32 was felt to be an overkill for MNIST, especially when I had seen models with max 20 filters at any layer achieving target previously.
-   Only quirk is the absence of max pool before second 1x1. Did this to gain depth in the network while keeping it simple. This also results in a larger GAP of 6x6, which doesnt seem to negatively impact the model.
+   # Run model
+   model = Net2(norm_type, input_img_size, num_groups).to(device) --> PARAMETERS FOR LAYER NORMALIZATION TO NETWORK
+   optimizer = optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
+   scheduler = StepLR(optimizer, step_size=2, gamma=0.1)
    
-   However the accuracy doesn't seem to be improving much.
+   for epoch in range(EPOCHS):
+       print("EPOCH:", epoch+1)
+       train_loss_list, train_accuracy_list = train(
+       model, device, train_loader, optimizer, epoch,
+       l1_decay, l2_decay, #------------------------------------------> l1 AND l2 REGULARIZATION PARAMETERS. 
+       train_loss_list, train_accuracy_list)
+       print("\nlearning rate", np.round(optimizer.param_groups[0]['lr'],4))
+       scheduler.step()
+       test_loss_list, test_accuracy_list, misclassified_imgs = test(model, device, test_loader, test_loss_list, test_accuracy_list, misclassified_imgs, epoch==EPOCHS-1)
    ```
 
+   
+
+2. ##### Network with Layer Normalization
+
+   ```
+   # Input parameters for the model
+   EPOCHS = 20
+   l1_decay=0.0
+   l2_decay=0.0
+   norm_type = "LN" -----> LAYER NORMALIZATION
+   num_groups=2
+   input_img_size=(1, 28, 28)
+   ```
+
+   <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week6/images/misclassified_imgs_LN.png?raw=false" style="zoom: 80%;" />
+
+3. ##### Network with L1 + BN
+
+```
+# Input parameters for the model
+EPOCHS = 20
+l1_decay=0.0005
+l2_decay=0.0
+norm_type = "GN"
+num_groups=2
+input_img_size=(1, 28, 28)
+```
+
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week6/images/misclassified_imgs_GN.png?raw=false" style="zoom: 80%;" />
+
+### Overall Results:
+
+---
 
 
-## Code 2 - Regularization
 
-[CODE](https://github.com/MittalNeha/Extensive_Vision_AI6/blob/main/week5/Session_5_Bhaskar_exp2.ipynb)
-
-1. Targets: Allow the network to train more in order to improve accuracies. 
-2. Results:
-   - Parameters: **7002**
-   - Best Train Accuracy: **99.39**%
-   - Best Test Accuracy: **99.43**%
-3. Analysis: 
-   - The training and test accuracies continue to improve as we train the model. 
-   - We hit the accuracy of 99.43% in 15th epoch, however the model was not able to maintain the same. Both training and test accuracies dropped after that.
-   - We should be able to push the network more.
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week6/images/WhatsApp%20Image%202021-06-10%20at%2010.29.03.jpeg?raw=false" style="zoom: 80%;" />
 
 
 
-## Code 3 - Augmentation
-
-[CODE](https://github.com/MittalNeha/Extensive_Vision_AI6/blob/main/week5/Session_5_Bhaskar_exp3.ipynb)
-
-1. Targets: Make training more challenging
-2. Results:
-   - Parameters: 7,002
-   - Best Train Accuracy: **99.19**%
-   - Best Test Accuracy: **99.38**%
-3. Analysis: 
-   - By adding augmentation in terms of rotation and sheer, the training accuracy dropped compared to the previous experiment. However, since it is ever increasing, we see that there is a gap created that can be filled to improve the model further.
-   - The accuracies increase constantly in this experiment, hence the promise to maintain the good number.
-   - There accuracies have been achieved in 20 epochs. Need to work further to achieve 99.4% within 15 epochs
-
-
-
-## Code 4 - Final Model
-
-[CODE](https://github.com/MittalNeha/Extensive_Vision_AI6/blob/main/week5/Session_5_Bhaskar_exp4.ipynb)
-
-1. Targets: Achieve the final accuracy within 15 epochs
-2. Results:
-   - Parameters: 7,002
-   - Best Train Accuracy: **99.37**%
-   - Best Test Accuracy: **99.51**% (14th epoch) , 
-3. Analysis: 
-   - Played with the learning rate scheduler to achieve the high accuracy faster.
-   - However, we trained it further to see that accuracy > 99.4 was maintained. 
-
-<img src="https://github.com/MittalNeha/Extensive_Vision_AI6/blob/main/week5/images/CAPACITY.jpg?raw=false" style="zoom: 60%;" />
-
-## Team Members
-
-Neha Mittal, Vidya Shankar, Bhaskar Gaur, Abhijit Das
