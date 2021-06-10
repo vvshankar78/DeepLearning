@@ -66,6 +66,24 @@ A function is below is used to pass on the required parameters and returns the k
 
 Regularization techniques are often used to address the over fitting issues faced while we train our models. The intuition behind the regularization is to add penalizing factor to the loss function by taking the sum of mod of all coeffients(L1) or sum of square of coefficients (L2)
 
+The code for L1 and L2 regularization goes as a part of train function is provided below
+
+
+
+```
+    if l1_decay > 0:
+      l1_loss = 0
+      for param in model.parameters():
+        l1_loss += torch.norm(param,1)
+      loss += l1_decay * l1_loss
+    if l2_decay > 0:
+      l2_loss = 0
+      for param in model.parameters():
+        l2_loss += torch.norm(param,2)
+      loss += l2_decay * l2_loss
+    train_loss_list.append(loss.item())
+```
+
 
 
 
