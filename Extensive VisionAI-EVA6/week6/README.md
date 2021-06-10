@@ -1,9 +1,4 @@
 # Submission for Week 6 - Normalization and Regularization
-<<<<<<< HEAD
-=======
-
->>>>>>> 4fbdced57c5995173bd5082f8951ad9f62ba9268
-
 
 ## Team Members
 
