@@ -121,7 +121,7 @@ The code for L1 and L2 regularization goes as a part of train function is provid
        scheduler.step()
        test_loss_list, test_accuracy_list, misclassified_imgs = test(model, device, test_loader, test_loss_list, test_accuracy_list, misclassified_imgs, epoch==EPOCHS-1)
    ```
-
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week6/images/misclassified_imgs_GN.png?raw=false" style="zoom: 80%;" />
    
 
 2. ##### Network with Layer Normalization
@@ -145,12 +145,12 @@ The code for L1 and L2 regularization goes as a part of train function is provid
 EPOCHS = 20
 l1_decay=0.0005
 l2_decay=0.0
-norm_type = "GN"
+norm_type = "BN"
 num_groups=2
 input_img_size=(1, 28, 28)
 ```
 
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week6/images/misclassified_imgs_GN.png?raw=false" style="zoom: 80%;" />
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week6/images/misclassified_imgs_BN.png?raw=false" style="zoom: 80%;" />
 
 ### Overall Results:
 
@@ -158,7 +158,7 @@ input_img_size=(1, 28, 28)
 
 
 
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week6/images/WhatsApp%20Image%202021-06-10%20at%2010.29.03.jpeg?raw=false" style="zoom: 80%;" />
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week6/images/training_curves.png?raw=false" style="zoom: 80%;" />
 
 
 
