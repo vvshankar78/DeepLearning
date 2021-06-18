@@ -3,8 +3,8 @@
 ## Team Members
 
 Bhaskar Gaur
-Vidya Shankar had emergency surgery this week. He gave me guidence on the phone.
 
+Vidya Shankar had emergency surgery this week. He gave me guidence on the phone.
 
 
 ### Objective:
