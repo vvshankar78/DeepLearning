@@ -45,9 +45,20 @@ achieve 85% accuracy, as many epochs as you want. Total Params to be less than 2
 1. Switched the notebook to use GPU.
 2. Added normalization parameter calculation using both test and train data, used them in the transformation to get bump from 54% to 57% for 1000 images test accuracy.
 3. Conducted experiments for architecture.
+
     i. Used large kernels of size 7 and 9 initially to mimic large receptive fields. Started with RF of 7 in first layer as 7 pixels were enough to get edges in CIFAR10 image.
+    
     ii. Used a pyramid arch instead of sqeeze and expand this time.
+    
     iii. The number of filters started with 16 -> 32 -> 64 -> 128. 256 was found overkill.
+    
     iv. The final layer of 128 filters was changed to Depthwise Separable Convolution, and gave parameter count reduction from 155k to 85k.
+    
     v. The layer with 64 filters was changed to dilation of 2, as it can get better idea of big picture when the parts of objects are found.
+    
+    vi. Final arch receptive field calculation (using [Fomoro AI](https://fomoro.com/research/article/receptive-field-calculator#3,1,1,SAME;3,1,1,SAME;3,2,1,SAME;3,1,1,SAME;3,2,1,SAME;3,1,2,SAME;3,2,2,SAME;3,2,1,SAME)
+    
+    ![Receptive Field Calculation!](images/net3.png)
+    
+    
     
