@@ -15,7 +15,7 @@ change the code such that it uses GPU.
 
 change the architecture to C1C2C3C40  (No MaxPooling, but 3 3x3 layers with stride of 2 instead)
 
-total RF must be more than 44
+total RF must be more than 44 - Got **63**
 
 one of the layers must use Depthwise Separable Convolution
 
@@ -23,10 +23,10 @@ one of the layers must use Dilated Convolution
 
 use GAP (compulsory):- We removed the FC after GAP (optional)
 
-parameter count of 85k, Accuracy of 79.5-80%
+parameter count of **85k**, Accuracy of **79.5-80%**
 
 Used Transforms:
-    horizontal flip (50% prob)
+    horizontal flip (50% probability)
     scale (0.9 to 1.1)
     rotation (-5 to 5)
     translate/shift (0.1 for x/y)
