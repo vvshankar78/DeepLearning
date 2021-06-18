@@ -2,16 +2,18 @@
 
 ## Team Members
 
-Vidya Shankar, Bhaskar Gaur
+Bhaskar Gaur
+Vidya Shankar had emergency surgery this week. He gave me guidence on the phone.
 
 
 
 ### Objective:
 
 ---
+#### Met
 change the code such that it uses GPU.
 
-change the architecture to C1C2C3C40  (No MaxPooling, but 3 3x3 layers with stride of 2 instead) (If you can figure out how to use Dilated kernels here instead of MP or strided convolution, then 200pts extra!)
+change the architecture to C1C2C3C40  (No MaxPooling, but 3 3x3 layers with stride of 2 instead)
 
 total RF must be more than 44
 
@@ -19,8 +21,17 @@ one of the layers must use Depthwise Separable Convolution
 
 one of the layers must use Dilated Convolution
 
-use GAP (compulsory):- add FC after GAP to target #of classes (optional)
+use GAP (compulsory):- We removed the FC after GAP (optional)
 
+parameter count of 85k
+
+Used Transforms:
+    horizontal flip (50% prob)
+    scale (0.9 to 1.1)
+    rotation (-5 to 5)
+    translate/shift (0.1 for x/y)
+
+#### Not Met
 use albumentation library and apply:
 
     horizontal flip
