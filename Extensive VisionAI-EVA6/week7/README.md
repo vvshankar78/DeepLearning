@@ -4,7 +4,7 @@
 
 Bhaskar Gaur
 
-Vidya Shankar had emergency surgery this week. He gave me guidence on the phone.
+Vidya Shankar had emergency surgery this week. He gave me some guidence on the phone.
 
 
 ### Objective:
@@ -23,7 +23,7 @@ one of the layers must use Dilated Convolution
 
 use GAP (compulsory):- We removed the FC after GAP (optional)
 
-parameter count of 85k
+parameter count of 85k, Accuracy of 79.5-80%
 
 Used Transforms:
     horizontal flip (50% prob)
@@ -76,5 +76,11 @@ achieve 85% accuracy, as many epochs as you want. Total Params to be less than 2
     v. Missed cutout.
 
 7. Training charts:
-
+    ![Receptive Field Calculation!](images/first_80epochs.png)
+    
+### The learning
+1. Keep experimenting with newer additions like image aug library on the side to avoid last minute surprise.
+2. Whatever the network can achieve with dropout of 10%, gives the ballpark of what image augmentation can achieve.
+3. Check in future if cutout can really outperform the above point.
+4. New LR schedule need to be tried, which can increase and get us out of local minima.
     
