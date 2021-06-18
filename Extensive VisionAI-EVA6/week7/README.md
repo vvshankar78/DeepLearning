@@ -56,9 +56,25 @@ achieve 85% accuracy, as many epochs as you want. Total Params to be less than 2
     
     v. The layer with 64 filters was changed to dilation of 2, as it can get better idea of big picture when the parts of objects are found.
     
-    vi. Final arch receptive field calculation (using [Fomoro AI](https://fomoro.com/research/article/receptive-field-calculator#3,1,1,SAME;3,1,1,SAME;3,2,1,SAME;3,1,1,SAME;3,2,1,SAME;3,1,2,SAME;3,2,2,SAME;3,2,1,SAME)
+    vi. Final arch receptive field calculation (using [Fomoro AI Online Calculator](https://fomoro.com/research/article/receptive-field-calculator#3,1,1,SAME;3,1,1,SAME;3,2,1,SAME;3,1,1,SAME;3,2,1,SAME;3,1,2,SAME;3,2,2,SAME;3,2,1,SAME))
     
     ![Receptive Field Calculation!](images/net3.png)
     
     
+4. Added Batch Normalization. With Dropout of 10%, test accuracy reached 80% in 50 epochs.
+5. Learning rate of 0.1 did not lead to loss reduction. So started with 0.01 and followed schedule of reduction at step of 20 with 0.5 gamma.
+6. Added image transformations with a dropout of 5%: 
+
+    i.  Kept having issues with albumenation during installation on local machine, so created a new virtual env for it. It uses torchvision 0.2 ver which caused env resolution issue with pytorch which was using 0.9/0.10 ver of torchvision. Next time will try on colab as well, and check basic examples.
+    
+    ii. In torchvision transforms, Horizontal flip was very successful.
+    
+    iii. Shear proved counterproductive, and was removed.
+    
+    iv. Rotate, scale and shift(translate) were added in moderation.
+    
+    v. Missed cutout.
+
+7. Training charts:
+
     
