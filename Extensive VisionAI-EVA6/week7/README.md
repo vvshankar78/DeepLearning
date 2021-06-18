@@ -6,6 +6,8 @@ Bhaskar Gaur
 
 Vidya Shankar had emergency surgery this week. He gave me some guidence on the phone.
 
+https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week7/Session7_Step2.ipynb
+
 
 ### Objective:
 
@@ -23,7 +25,7 @@ one of the layers must use Dilated Convolution
 
 use GAP (compulsory):- We removed the FC after GAP (optional)
 
-parameter count of **85k**, Accuracy of **79.5-80%**
+parameter count of **85k**, Accuracy of **80%**
 
 Used Transforms:
     horizontal flip (50% probability)
