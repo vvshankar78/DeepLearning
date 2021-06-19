@@ -9,7 +9,7 @@ Vidya Shankar had emergency surgery this week. He gave me some guidence on the p
 **UPDATE** - We are attempting the late assignment, so please dont grade us yet.
 
 Late Assignment notebook:
-
+https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week7/late_submission/Session7_late1.ipynb
 
 Regular Submission notebook:
 https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week7/Session7_Step2.ipynb
