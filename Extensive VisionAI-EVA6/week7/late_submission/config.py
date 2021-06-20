@@ -9,7 +9,7 @@ class ModelConfig(object):
 		self.batch_size_cpu = 64	
 		self.num_workers = 4
 		self.epochs = 50
-		self.dropout_value = 0.15
+		self.dropout_value = 0.05
 
 	def print_config(self):
 		print("Model Parameters:")
