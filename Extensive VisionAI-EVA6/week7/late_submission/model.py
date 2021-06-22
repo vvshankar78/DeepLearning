@@ -157,4 +157,95 @@ class Net1(nn.Module):
         x = x.view(-1, 10 * 1 * 1)
         return nn.functional.log_softmax(x, dim=-1)
     
-    
+ 
+class Net2(nn.Module):
+    def __init__(self, args):
+        super(Net2, self).__init__()
+        dropout_value = args.dropout_value
+        
+        layer1_channel = 32
+        layer2_channel = 32
+        layer3_channel = 64
+        layer4_channel = 128
+        
+        
+        # # CONVOLUTION BLOCK 1
+        self.convblock1 = nn.Sequential(
+            nn.Conv2d(in_channels=3, out_channels=layer1_channel, kernel_size=(3, 3), padding='same', bias=False, dilation=1),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer1_channel),
+            nn.Dropout(dropout_value),
+            nn.Conv2d(in_channels=layer1_channel, out_channels=layer1_channel, kernel_size=(3, 3), padding='same', bias=False, dilation=1),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer1_channel),
+            nn.Dropout(dropout_value),
+            nn.Conv2d(in_channels=layer1_channel, out_channels=layer1_channel, kernel_size=(3, 3), stride=1, padding=1, bias=False, dilation=1),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer1_channel),
+            nn.Dropout(dropout_value)
+        )
+
+        # CONVOLUTION BLOCK 2
+        self.convblock2 = nn.Sequential(
+            # Depthwise
+            #nn.Conv2d(in_channels=layer1_channel, out_channels=layer1_channel, kernel_size=(3, 3), padding=1, groups=layer1_channel, bias=False, dilation=2),
+            #nn.Conv2d(layer1_channel,layer2_channel,1),
+            nn.Conv2d(in_channels=layer1_channel, out_channels=layer2_channel, kernel_size=(3, 3), stride=2, padding=2, bias=False, dilation=2),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer2_channel),
+            nn.Dropout(dropout_value),
+            nn.Conv2d(in_channels=layer2_channel, out_channels=layer2_channel, kernel_size=(3, 3), stride=1, padding='same', bias=False, dilation = 1),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer2_channel),
+            nn.Dropout(dropout_value)
+        )
+
+        # CONVOLUTION BLOCK 3
+        self.convblock3 = nn.Sequential(
+            #nn.Conv2d(in_channels=layer2_channel, out_channels=layer3_channel, kernel_size=(3, 3), padding='same', bias=False, dilation=2),
+            # Depthwise
+            nn.Conv2d(in_channels=layer2_channel, out_channels=layer2_channel, kernel_size=(3, 3), stride=2, padding=2, groups=layer2_channel, bias=False, dilation=2),
+            nn.Conv2d(layer2_channel,layer3_channel,1),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer3_channel),
+            nn.Dropout(dropout_value),
+            nn.Conv2d(in_channels=layer3_channel, out_channels=layer3_channel, kernel_size=(3, 3), stride=1, padding='same', bias=False, dilation=1),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer3_channel),
+            nn.Dropout(dropout_value)
+        )
+        
+        # CONVOLUTION BLOCK 4
+        self.convblock4 = nn.Sequential(
+            # Depthwise
+            nn.Conv2d(in_channels=layer3_channel, out_channels=layer3_channel, kernel_size=(3, 3), stride=2, padding=2, groups=layer3_channel, bias=False, dilation=2),
+            nn.Conv2d(layer3_channel,layer4_channel,1),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer4_channel),
+            nn.Dropout(dropout_value),
+            # Depthwise
+            nn.Conv2d(in_channels=layer4_channel, out_channels=layer4_channel, kernel_size=(3, 3), stride=1, padding='same', groups=layer4_channel, bias=False, dilation=1),
+            nn.Conv2d(layer4_channel,layer4_channel,1),
+            nn.ReLU(),
+            nn.BatchNorm2d(layer4_channel),
+            nn.Dropout(dropout_value),
+
+            #to remove last fc layer
+            nn.Conv2d(layer4_channel,10,1),
+            #nn.ReLU()
+        )
+
+        # OUTPUT BLOCK
+        self.gap = nn.Sequential(
+            nn.AvgPool2d(kernel_size=2)
+        )
+
+
+    def forward(self, x):
+        x = self.convblock1(x)
+        x = self.convblock2(x)
+        x = self.convblock3(x)
+        x = self.convblock4(x)
+        x = self.gap(x)
+        x = x.view(-1, x.shape[1] * x.shape[2] * x.shape[3] )
+        return nn.functional.log_softmax(x, dim=-1)
