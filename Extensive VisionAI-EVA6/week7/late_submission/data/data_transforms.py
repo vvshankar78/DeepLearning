@@ -24,7 +24,7 @@ def albumentations_transforms(p=1.0, is_train=False):
 	if is_train:
 		transforms_list.extend([
 			HorizontalFlip(p=0.5),
-            ShiftScaleRotate(shift_limit=0.05, scale_limit=0.05, rotate_limit=10, p=0.3),
+            ShiftScaleRotate(shift_limit=0.1, scale_limit=0.1, rotate_limit=15, p=0.5),
             PadIfNeeded(min_height=32, min_width=32, border_mode=BORDER_CONSTANT, value=mean*255.0, p=1.0),
 			OneOf([
 				#RandomCrop(height=32, width=32, p=0.8),
