@@ -1,94 +1,118 @@
-# Submission for Week 7 - Advanced Concepts
+# Advanced Training Concepts - Class Activation Maps
 
 ## Team Members
 
 Vidya Shankar, Bhaskar Gaur
 
-Vidya Shankar had emergency surgery this week. He gave me some guidence on the phone.
-
-**UPDATE** - We are attempting the late assignment, so please dont grade us yet.
-
-Late Assignment notebook:
-https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week7/late_submission/Session7_late1.ipynb
-
 Regular Submission notebook:
-https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/week7/Session7_Step2.ipynb
+https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Cifar_resnet_GradCam.ipynb
 
 
 ### Objective:
 
 ---
-#### Met
-change the code such that it uses GPU.
+Clone Resnet18 model from : https://github.com/kuangliu/pytorch-cifar
 
-change the architecture to C1C2C3C40  (No MaxPooling, but 3 3x3 layers with stride of 2 instead)
+Create modular code for models, train, test, test-train plots,  plot misclassified images and GradCam. 
 
-total RF must be more than 44 - Got **63**
+1. pull your Github code to google colab (don't copy-paste code)
 
-one of the layers must use Depthwise Separable Convolution
+2. our colab file must:
 
-one of the layers must use Dilated Convolution
+   1. train resnet18 for 20 epochs on the CIFAR10 dataset
+   2. show loss curves for test and train datasets
+   3. show a gallery of 10 misclassified images
+   4. show gradcam output on 10 misclassified images.
 
-use GAP (compulsory):- We removed the FC after GAP (optional)
+   
 
-parameter count of **85k**, Accuracy of **80%**
+   ### Parameters and Hyperparameters
 
-Used Transforms:
-    horizontal flip (50% probability)
-    scale (0.9 to 1.1)
-    rotation (-5 to 5)
-    translate/shift (0.1 for x/y)
+   - Model : Resnet18
+   - Data: CIFAR10
+   - Loss Function: Cross Entropy Loss
+   - Optimizer: SGD
+   - Scheduler: StepLR
+   - Batch Size: 64
+   - Learning Rate: lr=0.01
+   - Epochs: 20
+   - Dropout: 0.
+   - L1 decay: 0
+   - L2 decay: 0
 
-#### Not Met
-use albumentation library and apply:
+   ### Transformations :
 
-    horizontal flip
-    shiftScaleRotate
-    coarseDropout (max_holes = 1, max_height=16px, max_width=1, min_holes = 1, min_height=16px, min_width=16px, fill_value=(mean of your dataset), mask_fill_value = None)
+   - HorrizontalFlip
+   - ShiftScaleRotate
+   - Pad
+   - CourseDropout
 
-achieve 85% accuracy, as many epochs as you want. Total Params to be less than 200k. 
+   ### Results:
+
+   Achieved 88.95% accuracy in 20th Epock
 
 
-### The Journey:
-1. Switched the notebook to use GPU.
-2. Added normalization parameter calculation using both test and train data, used them in the transformation to get bump from 54% to 57% for 1000 images test accuracy.
-3. Conducted experiments for architecture.
 
-    i. Used large kernels of size 7 and 9 initially to mimic large receptive fields. Started with RF of 7 in first layer as 7 pixels were enough to get edges in CIFAR10 image.
-    
-    ii. Used a pyramid arch instead of sqeeze and expand this time.
-    
-    iii. The number of filters started with 16 -> 32 -> 64 -> 128. 256 was found overkill.
-    
-    iv. The final layer of 128 filters was changed to Depthwise Separable Convolution, and gave parameter count reduction from 155k to 85k.
-    
-    v. The layer with 64 filters was changed to dilation of 2, as it can get better idea of big picture when the parts of objects are found.
-    
-    vi. Final arch receptive field calculation (using [Fomoro AI Online Calculator](https://fomoro.com/research/article/receptive-field-calculator#3,1,1,SAME;3,1,1,SAME;3,2,1,SAME;3,1,1,SAME;3,2,1,SAME;3,1,2,SAME;3,2,2,SAME;3,2,1,SAME))
-    
-    ![Receptive Field Calculation!](images/net3.png)
-    
-    
-4. Added Batch Normalization. With Dropout of 10%, test accuracy reached 80% in 50 epochs.
-5. Learning rate of 0.1 did not lead to loss reduction. So started with 0.01 and followed schedule of reduction at step of 20 with 0.5 gamma.
-6. Added image transformations with a dropout of 5%: 
 
-    i.  Kept having issues with albumenation during installation on local machine, so created a new virtual env for it. It uses torchvision 0.2 ver which caused env resolution issue with pytorch which was using 0.9/0.10 ver of torchvision. Next time will try on colab as well, and check basic examples.
-    
-    ii. In torchvision transforms, Horizontal flip was very successful.
-    
-    iii. Shear proved counterproductive, and was removed.
-    
-    iv. Rotate, scale and shift(translate) were added in moderation.
-    
-    v. Missed cutout.
+### <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Images/Test_train_curves.png?raw=false" style="zoom: 100%;" />
 
-7. Training charts:
-    ![Receptive Field Calculation!](images/first_80epochs.png)
-    
-### The learning
-1. Keep experimenting with newer additions like image aug library on the side to avoid last minute surprise.
-2. Whatever the network can achieve with dropout of 10%, gives the ballpark of what image augmentation can achieve.
-3. Check in future if cutout can really outperform the above point.
-4. New LR schedule need to be tried, which can increase and get us out of local minima.
-    
+
+Top-20 Misclassified Images:
+
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Images/20_misclassified_images.jpg?raw=false" style="zoom: 100%;" />
+
+
+
+### Class Activation Map - Misclassified Images
+
+Gradient-weighted Class Activation Mapping (GradCAM) uses the gradients of any target concept (say logits for 'dog' or even a caption), flowing into the final convolutional layer to produce a coarse localization map highlighting the important regions in the image for predicting the concept. 
+
+We take the final convolutional feature map, and then we **weigh** every channel in that feature with the gradient of the class with respect to the channel. It tells us how intensely the input image activates different channels by how important each channel is with regard to the class. It does not require any re-training or change in the existing architecture. 
+
+For this exercise, the GradCAM maps for Resnet18 is generated each layer (layer0, layer1, layer2, layer3, layer4) . The Gradcam is imported from https://github.com/jacobgil/pytorch-grad-cam
+
+The referred code block for generating gradcam images is shown below. 
+
+```
+from pytorch_grad_cam import GradCAM, ScoreCAM, GradCAMPlusPlus, AblationCAM, XGradCAM, EigenCAM
+from pytorch_grad_cam.utils.image import show_cam_on_image
+from torchvision.models import resnet50
+
+model = resnet50(pretrained=True)
+target_layer = model.layer4[-1]
+input_tensor = # Create an input tensor image for your model..
+# Note: input_tensor can be a batch tensor with several images!
+
+# Construct the CAM object once, and then re-use it on many images:
+cam = GradCAM(model=model, target_layer=target_layer, use_cuda=args.use_cuda)
+
+# If target_category is None, the highest scoring category
+# will be used for every image in the batch.
+# target_category can also be an integer, or a list of different integers
+# for every image in the batch.
+target_category = 281
+
+# You can also pass aug_smooth=True and eigen_smooth=True, to apply smoothing.
+grayscale_cam = cam(input_tensor=input_tensor, target_category=target_category)
+
+# In this example grayscale_cam has only one image in the batch:
+grayscale_cam = grayscale_cam[0, :]
+visualization = show_cam_on_image(rgb_img, grayscale_cam)
+```
+
+
+
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Images/cam-1.jpg?raw=false" style="zoom: 100%;" />
+
+
+
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Images/cam-2.jpg?raw=false" style="zoom: 100%;" />
+
+
+
+#### References
+
+https://canvas.instructure.com/courses/2734471/assignments/22785148
+
+https://arxiv.org/abs/1610.02391
+
