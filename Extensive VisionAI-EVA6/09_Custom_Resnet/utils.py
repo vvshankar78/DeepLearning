@@ -5,6 +5,11 @@ import numpy as np
 import cv2
 import matplotlib
 
+import sys, os
+
+my_path_cam = '/content/pytorch-grad-cam'
+sys.path.append(my_path_cam)
+
 from pytorch_grad_cam import GradCAM
 from pytorch_grad_cam.utils.image import show_cam_on_image
 from pytorch_grad_cam.utils.image import show_cam_on_image, \
