@@ -32,11 +32,16 @@ def albumentations_transforms(p=1.0, is_train=False):
                 CoarseDropout(max_holes=1, min_holes=1, max_height=8, max_width=8, min_height=8,
 						min_width=8, fill_value=mean*255.0, mask_fill_value=None, p=0.7),
                 # ToGray(p=0.3),
-			], p=1.0),
-			
-			
+			], p=1.0),])
+    
+	if is_train == False:
+		transforms_list.extend([
+			# HorizontalFlip(p=0.5),
+            # ShiftScaleRotate(shift_limit=0.1, scale_limit=0.1, rotate_limit=15, p=0.5),
+            PadIfNeeded(min_height=38, min_width=38, border_mode=BORDER_CONSTANT, value=mean*255.0, p=1.0)])
 
-		])
+
+    
 	transforms_list.extend([
 		Normalize(
 			mean=mean,
