@@ -29,7 +29,6 @@ import sys, os
 
 from models import Resnet
 from models import my_model
-from models import Resnet_Custom
 from train import train
 from test1 import test
 from config import ModelConfig
@@ -55,6 +54,8 @@ args.print_config()
 
 data = DataEngine(args)
 data.show_samples()
+
+
 
 
 train_loader = data.train_loader
