@@ -1,7 +1,7 @@
 from tqdm import tqdm
 import torch
 
-def train(model, device, train_loader, criterion, optimizer, epoch, l1_decay, l2_decay, train_loss_list, train_accuracy_list, scheduler=None):
+def train(model, device, train_loader, criterion, optimizer, epoch, l1_decay, l2_decay, train_loss_list, train_accuracy_list):
   model.train()
   pbar = tqdm(train_loader)
   correct = 0
@@ -36,9 +36,6 @@ def train(model, device, train_loader, criterion, optimizer, epoch, l1_decay, l2
     # Backpropagation
     loss.backward()
     optimizer.step()
-    if scheduler:
-      scheduler.step()
-    
 
     # Update pbar-tqdm
     
