@@ -45,7 +45,7 @@ https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA
 
 
 
-### **The modular code  **
+### The modular code  
 
 ***main.py -*** all the functions needed to run the whole pipeline. 
 
