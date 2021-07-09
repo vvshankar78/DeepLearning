@@ -2,117 +2,165 @@
 
 ## Team Members
 
-Vidya Shankar, Bhaskar Gaur
+Vidya Shankar
 
 Regular Submission notebook:
-https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Cifar_resnet_GradCam.ipynb
+https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/CIFAR10_Custom_RESNET.ipynb
 
 
 ### Objective:
 
 ---
-Clone Resnet18 model from : https://github.com/kuangliu/pytorch-cifar
+**Write a custom Resnet like architecture as described below**
 
-Create modular code for models, train, test, test-train plots,  plot misclassified images and GradCam. 
+1. PrepLayer - Conv 3x3 s1, p1) >> BN >> RELU [64k]
+2. Layer1 -
+   1. X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [128k]
+   2. R1 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [128k] 
+   3. Add(X, R1)
+3. Layer 2 -
+   1. Conv 3x3 [256k]
+   2. MaxPooling2D
+   3. BN
+   4. ReLU
+4. Layer 3 -
+   1. X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [512k]
+   2. R2 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [512k]
+   3. Add(X, R2)
+5. MaxPooling with Kernel Size 4
+6. FC Layer 
+7. SoftMax
 
-1. pull your Github code to google colab (don't copy-paste code)
+**Uses One Cycle Policy such that:**
 
-2. our colab file must:
+1. Total Epochs = 24
+2. Max at Epoch = 5
+3. LRMIN = FIND
+4. LRMAX = FIND
+5. NO Annihilation
 
-   1. train resnet18 for 20 epochs on the CIFAR10 dataset
-   2. show loss curves for test and train datasets
-   3. show a gallery of 10 misclassified images
-   4. show gradcam output on 10 misclassified images.
+**Transform -RandomCrop 32, 32 (after padding of 4) >> FlipLR >> Followed by CutOut(8, 8)**
 
-   
-
-   ### Parameters and Hyperparameters
-
-   - Model : Resnet18
-   - Data: CIFAR10
-   - Loss Function: Cross Entropy Loss
-   - Optimizer: SGD
-   - Scheduler: StepLR
-   - Batch Size: 64
-   - Learning Rate: lr=0.01
-   - Epochs: 20
-   - Dropout: 0.
-   - L1 decay: 0
-   - L2 decay: 0
-
-   ### Transformations :
-
-   - HorrizontalFlip
-   - ShiftScaleRotate
-   - Pad
-   - CourseDropout
-
-   ### Results:
-
-   Achieved 88.95% accuracy in 20th Epock
+**Batch size = 512**
 
 
 
+### **The modular code  **
 
-### <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Images/Test_train_curves.png?raw=false" style="zoom: 100%;" />
+***main.py -*** all the functions needed to run the whole pipeline. 
+
+***CIFAR10_Custom_RESNET.ipynb -*** calls individual model from main file 
+
+***model folder*** - custom resnet model 
+
+***Experiments folder*** - notebooks with various experimentation done. 
+
+***support python files*** - train.py, test.py, test-train plots.py,  plot misclassified images.py
 
 
-Top-20 Misclassified Images:
 
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Images/20_misclassified_images.jpg?raw=false" style="zoom: 100%;" />
+### Learning rate finder and One Cycle Policy
 
+The learning rate range test is a test that provides valuable information about the optimal learning rate. During a pre-training run, the learning rate is increased linearly or exponentially between two boundaries. The low initial learning rate allows the network to start converging and as the learning rate is increased it will eventually be too large and the network will diverge.
 
-
-### Class Activation Map - Misclassified Images
-
-Gradient-weighted Class Activation Mapping (GradCAM) uses the gradients of any target concept (say logits for 'dog' or even a caption), flowing into the final convolutional layer to produce a coarse localization map highlighting the important regions in the image for predicting the concept. 
-
-We take the final convolutional feature map, and then we **weigh** every channel in that feature with the gradient of the class with respect to the channel. It tells us how intensely the input image activates different channels by how important each channel is with regard to the class. It does not require any re-training or change in the existing architecture. 
-
-For this exercise, the GradCAM maps for Resnet18 is generated each layer (layer0, layer1, layer2, layer3, layer4) . The Gradcam is imported from https://github.com/jacobgil/pytorch-grad-cam
-
-The referred code block for generating gradcam images is shown below. 
+The code implementation of lr finder is shown below. The output of lr finder provides the optimal learning rate. 
 
 ```
-from pytorch_grad_cam import GradCAM, ScoreCAM, GradCAMPlusPlus, AblationCAM, XGradCAM, EigenCAM
-from pytorch_grad_cam.utils.image import show_cam_on_image
-from torchvision.models import resnet50
+pip install torch-lr-finder
 
-model = resnet50(pretrained=True)
-target_layer = model.layer4[-1]
-input_tensor = # Create an input tensor image for your model..
-# Note: input_tensor can be a batch tensor with several images!
-
-# Construct the CAM object once, and then re-use it on many images:
-cam = GradCAM(model=model, target_layer=target_layer, use_cuda=args.use_cuda)
-
-# If target_category is None, the highest scoring category
-# will be used for every image in the batch.
-# target_category can also be an integer, or a list of different integers
-# for every image in the batch.
-target_category = 281
-
-# You can also pass aug_smooth=True and eigen_smooth=True, to apply smoothing.
-grayscale_cam = cam(input_tensor=input_tensor, target_category=target_category)
-
-# In this example grayscale_cam has only one image in the batch:
-grayscale_cam = grayscale_cam[0, :]
-visualization = show_cam_on_image(rgb_img, grayscale_cam)
+def get_lr_finder(model, train_loader):
+  criterion = nn.CrossEntropyLoss()
+  optimizer = optim.SGD(model.parameters(), lr=1e-7, weight_decay=1e-2)
+  lr_finder = LRFinder(model, optimizer, criterion, device="cuda")
+  lr_finder.range_test(train_loader, end_lr=100, num_iter=100, step_mode="exp")
+  lr_finder.plot()
+  return
+  
+get_lr_finder(model, train_loader)
 ```
 
-
-
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Images/cam-1.jpg?raw=false" style="zoom: 100%;" />
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/lr_finder.jpg?raw=false" style="zoom: 75%;" />
 
 
 
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/08_Resnet/Images/cam-2.jpg?raw=false" style="zoom: 100%;" />
+**One Cycle policy**
+
+The 1cycle learning rate policy changes the learning rate after every batch. step should be called after a batch has been used for training.
+
+In our case, we have 24 epochs and the need to peak at 5th epoch. So to peak at 5th epoch, we use the parameter pct_peak which is calculated by  - 
+
+pct_peak = Epoch / peak epoch = 24/5 
+
+steps_per_epoch = len(train_loader) = 98 batches per epoch. 
+
+max_lr = 10  X suggested_lr (from lr_finder)
+
+```
+def get_ocp_plot(train_loader, model, max_lr=0.1):   
+  EPOCHS = args.epochs
+  peak = args.peak
+  peak_pct = peak/EPOCHS
+  optimizer = optim.SGD(model.parameters(), lr=1e-7, weight_decay=1e-2)
+  scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=max_lr, 	 steps_per_epoch=len(train_loader), epochs=EPOCHS,pct_start=peak_pct, anneal_strategy='linear')
+  lrs = []
+
+  for i in range(EPOCHS*len(train_loader)):
+      optimizer.step()
+      lrs.append(optimizer.param_groups[0]["lr"])
+      scheduler.step()
+
+  plt.plot(lrs)
+  return
+```
+
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/OCP.jpg?raw=false" style="zoom: 100%;" />
+
+
+
+### Parameters and Hyperparameters
+
+- Model : Custom_Resnet
+- Data: CIFAR10
+- Loss Function: Cross Entropy Loss
+- Optimizer: SGD
+- Scheduler: One cycle policy
+- Batch Size: 512
+- Learning Rate: lr=2.3e-2 (max_lr for ocp)
+- Epochs: 24
+- Dropout: 0.
+- L1 decay: 0
+- L2 decay: 0
+
+
+
+### Results:
+
+| Trial                              | Train Accuracy | Test Accuracy | Notebook                                                     |
+| ---------------------------------- | -------------- | ------------- | ------------------------------------------------------------ |
+| Baseline - cutout 8x8              | 99.9%          | 88.9%         | https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/experiments/CIFAR10_Custom_RESNET_cutout_8x8.ipynb |
+| Cutout 16x16                       | 98.88%         | 88.94%        | https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/experiments/CIFAR10_Custom_RESNET_16_cutout.ipynb |
+| change in lr peak to max_lr=3.5e-2 | 99.86%         | 89.17%        | https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/experiments/CIFAR10_Custom_RESNET_reduced_lr.ipynb |
+
+The models seem to be over fitting. The additional set of experimentation is to look at regularization like l1, l2, drop outs etc., 
+
+
+
+
+### <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/train-test-curves.png?raw=false" style="zoom: 100%;" />
+
+**Top-20 Misclassified Images:**
+
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/misclassified_images.png?raw=false" style="zoom: 100%;" />
+
+
 
 
 
 #### References
 
-https://canvas.instructure.com/courses/2734471/assignments/22785148
+https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.OneCycleLR.html
 
-https://arxiv.org/abs/1610.02391
+https://github.com/davidtvs/pytorch-lr-finder
+
+
 
