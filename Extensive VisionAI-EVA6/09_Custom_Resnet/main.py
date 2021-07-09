@@ -57,9 +57,6 @@ args = ModelConfig()
 args.dropout_value = 0.0
 
 
-
-
-
 def get_data():
   # View model config
   args.print_config()
@@ -123,8 +120,8 @@ def get_ocp_plot(train_loader, model, max_lr=0.1):
 def run_model(model, train_loader, test_loader, max_lr=0.1):
   history = {}
   EPOCHS = args.epochs
-  l1_decay=0.000
-  l2_decay=0.1
+  l1_decay=0.0
+  l2_decay=0.0
   peak = args.peak # epoch you want the max lr. 
   peak_pct = peak/EPOCHS
   lrs = []
@@ -172,56 +169,6 @@ def get_show_misclassified(model, test_loader, num_of_images=20):
   matplotlib.pyplot.show()
   save_misclassified_img(misclass_img_list)
 
-# #dict to store model loss and accuracy parameters
-
-
-# # Input parameters for the model
-# EPOCHS = args1.epoch
-# l1_decay=0.000
-# l2_decay=0.0
-# #norm_type = "BN"
-# #num_groups=2
-# #input_img_size=(1, 28, 28)
-
-# # Run model for first 20 epochs with high rate, and half it thereafter
-# # model = Net2(args).to(device)
-# model = Resnet.ResNet18().to(device)
-# criterion = nn.CrossEntropyLoss()
-# optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
-# scheduler = StepLR(optimizer, step_size=25, gamma=0.5)
-
-# # run_model(model, optimizer, scheduler, EPOCHS, l1=0.0, l2=0.0)
-
-# train_loss_list = []
-# train_accuracy_list = []
-# test_loss_list = []
-# test_accuracy_list = []
-# misclassified_imgs = []
-# for epoch in range(EPOCHS):
-#     print("EPOCH:", epoch+1)
-#     train_loss_list, train_accuracy_list = train(model, device, train_loader, criterion, optimizer, epoch, l1_decay, l2_decay, train_loss_list, train_accuracy_list)
-#     print("\nlearning rate", optimizer.param_groups[0]['lr'])
-#     scheduler.step()
-#     # test(model1, device, test_loader, test_losses, test_acc, misclassified_imgs, epoch==EPOCHS-1)
-#     test_loss_list, test_accuracy_list, misclassified_imgs = test(model, device, test_loader, criterion, classes, test_loss_list, test_accuracy_list, misclassified_imgs, epoch==EPOCHS-1)
-
-# name = 'Resnet18'
-# history[name] = {}
-# history[name]['train_loss'] = train_loss_list
-# history[name]['train_accuracy'] = train_accuracy_list
-# history[name]['test_loss'] = test_loss_list
-# history[name]['test_accuracy'] = test_accuracy_list
-# history[name]['misclassified_imgs'] = misclassified_imgs
-
-# training_curves(history)
-# matplotlib.pyplot.show()
-
-
-# misclass_img_list, misclass_img_category = show_misclassified(model, test_loader, device, classes, num_of_images=20)
-
-# matplotlib.pyplot.show()
-
-# save_misclassified_img(misclass_img_list)
 
 # visualization = Generate_CAM(model, misclass_img_category, 20, cuda)
 # CAM_show_image(visualization, 0)
