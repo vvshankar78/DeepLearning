@@ -1,4 +1,4 @@
-# Advanced Training Concepts - Class Activation Maps
+# ResNets, LR Schedulers and Higher Receptive Fields
 
 ## Team Members
 
