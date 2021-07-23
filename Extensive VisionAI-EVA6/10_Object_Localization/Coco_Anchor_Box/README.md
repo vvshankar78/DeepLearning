@@ -170,7 +170,7 @@ Annotations represents the details of annotations for an image. The descriptions
 
 
 
-**EDA**
+### **EDA**
 
 Annotations Data Size -  860001 
 
@@ -180,17 +180,39 @@ number of classes 80
 
 
 
-Count of bounding boxes by Categories:
+**Count of bounding boxes by Categories:**
 
 
 
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/Coco_Anchor_Box/outputs/bounding%20box%20by%20categories.png?raw=false" style="zoom: 100%;" />
 
 
 
+### **Anchor Box**
+
+One Size does not fit all, but templates provides a better way to represent them. What am I saying!!!!. 
+
+Each of the annotated bounding box comes with its own size and there is no way to to categorize a bounding box for object category (Baba Ramdev). So the yolo team came up with the idea of template anchor boxes that closely matches with the bounding box. The template anchor boxes are then adjusted by ratio metric to map to the actual bounding box in the yolo algorithm. 
+
+##### HOW TO CALCULATE ANCHOR BOXES 
+
+The optimized number of anchor boxes is figured out based on the width and height of each bounding box normalized by image dimensions. Plot (scatter plot) between the normalized height and width. 
+
+Use K-means clustering to compute the cluster centers. 
+
+Compute the different numbers of clusters and compute the mean of maximum IOU between bounding boxes and individual anchors. 
+
+pick the number of centroids which givens mean IOU > 65% (yolo v2)
+
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/Coco_Anchor_Box/outputs/elbow%20curve.png?raw=false" style="zoom: 150%;" />
 
 
 
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/Coco_Anchor_Box/outputs/centroid.png?raw=false" style="zoom: 150%;" />
 
+
+
+We graph the relationship between the number of clusters and Within Cluster Sum of Squares (WCSS) then we select the number of clusters (about 4 in our case) where the change in WCSS begins to level off (elbow method).
 
 
 
@@ -206,5 +228,7 @@ https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.OneCycleLR.ht
 
 https://github.com/davidtvs/pytorch-lr-finder
 
+https://towardsdatascience.com/machine-learning-algorithms-part-9-k-means-example-in-python-f2ad05ed5203
 
+ (https://www.youtube.com/watch?v=4b5d3muPQmA)
 
