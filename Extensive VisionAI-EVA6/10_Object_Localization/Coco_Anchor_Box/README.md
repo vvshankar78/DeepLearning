@@ -1,16 +1,99 @@
 # ResNets, LR Schedulers and Higher Receptive Fields
 
-## Team Members
-
 Vidya Shankar
 
-Regular Submission notebook:
-https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/CIFAR10_Custom_RESNET.ipynb
 
 
 ### Objective:
 
 ---
+1.  Learn how COCO object detection dataset's schema is.
+2. EDA on COCO data - data for class distribution (along with the class names) along with a graph 
+3. Calculate the Anchor Boxes for k = 3, 4, 5, 6 and draw them.
+
+
+
+### About [COCO](https://cocodataset.org/) :
+
+COCO (Common Objects in Context) is large scale object detection, segmentation and captioning dataset. 
+
+COCO has several features:
+
+- Object segmentation
+- Recognition in context
+- Superpixel stuff segmentation
+- 330K images (>200K labeled)
+- 1.5 million object instances
+- 80 object categories
+- 91 stuff categories
+- 5 captions per image
+- 250,000 people with keypoints
+
+
+
+
+
+### Coco Dataset Schema
+
+The sch
+
+```
+{
+  "info": {
+    Annotater tool metadata
+  },
+  "images": [
+    {
+      "id": unique internal identifier for the image,
+      "width": width of the image,
+      "height": height of the image,
+      "file_name": image file name,
+      "license": identifier for the correspnding license,
+      "date_captured": date when captured
+    },
+  ],
+  "annotations": [
+    {
+      "id": unique internal identifier for the annotation,
+      "image_id": identifier mapping to the image through images.id,
+      "category_id": identifier mapping to the category through categories.id,
+      "segmentation": [
+        4 pairs of (x,y) coordinates of the bbox starting from the top left corner,
+        in the clockwise direction, assuming the origin is at the top left corner
+        of the image
+      ],
+      "area": pixel area of the bbox,
+      "bbox": [
+        assuming the origin is at the top left corner of the image
+        x: x co-ordinate of top left corner of bbox,
+        y: y co-ordinate of top left corner of bbox ,
+        w: width of the bbox,
+        h: height of the bbox,
+      ],
+      "iscrowd": denotes if there is are multiple objects or single object
+    },
+  ],
+  "licenses": [
+    {
+      "id": unique internal identifier for the license,
+      "name": license name,
+      "url": license url
+    }
+  ],
+  "categories": [
+    {
+      "id": unique internal identifier for the class,
+      "name": class name,
+      "supercategory": "class"
+    },
+  ]
+}
+```
+
+
+
+
+
 **Write a custom Resnet like architecture as described below**
 
 1. PrepLayer - Conv 3x3 s1, p1) >> BN >> RELU [64k]
