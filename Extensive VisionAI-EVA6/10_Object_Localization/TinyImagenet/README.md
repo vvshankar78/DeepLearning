@@ -10,39 +10,7 @@ Vidya Shankar
 ---
 The objective is to train ResNet18 on tinyimagenet dataset (with 70/30 split) for 50 Epochs and achieve 50%+ Validation Accuracy.
 
-
-      
-    ├── data
-    |   ├── data_download.py 
-    |   ├── data_engine.py 
-    |   ├── data_transforms.py
-    ├── models  
-    |   ├── Resnet_Custom.py 
-    |   ├── Resnet.py
-    ├── gradcam  
-    |   ├── __init__.py 
-    |   ├── gradcam.py
-    |   ├── visualize.py
-    ├── utils.py
-    ├── train.py
-    ├── test1.py 
-    ├── config.py
-    ├── main.py     
-    ├── README.md  
-
-
-
-<<<<<<< HEAD
-**Details of the Training **
-
-1. Model - ResNet18 (https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py)
-
-**Data Augmentation **
-
-RandomCrop
-=======
 **Details of the Training**
->>>>>>> ac03318ab61f2a7ebdef7bf70e52215f8a5a2717
 
 - Model - ResNet18 (https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py)
 
@@ -151,8 +119,6 @@ def get_ocp_plot(train_loader, model, max_lr=0.1):
 <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet/outputs/OCP.png?raw=false" style="zoom: 100%;" />
 
 
-
-- 
 
 
 
