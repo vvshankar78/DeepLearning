@@ -1,4 +1,4 @@
-# ResNets, LR Schedulers and Higher Receptive Fields
+# COCO Dataset - EDA and Anchor box using K-Means
 
 Vidya Shankar
 
@@ -15,9 +15,7 @@ Vidya Shankar
 
 ### About [COCO](https://cocodataset.org/) :
 
-COCO (Common Objects in Context) is large scale object detection, segmentation and captioning dataset. 
-
-COCO has several features:
+COCO (Common Objects in Context) is large scale object detection, segmentation and captioning dataset.  COCO has several features:
 
 - Object segmentation
 - Recognition in context
@@ -31,11 +29,7 @@ COCO has several features:
 
 
 
-
-
 ### Coco Dataset Schema
-
-The sch
 
 ```
 {
