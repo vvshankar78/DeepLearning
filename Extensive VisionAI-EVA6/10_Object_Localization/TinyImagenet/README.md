@@ -34,17 +34,14 @@ The objective is to train ResNet18 on tinyimagenet dataset (with 70/30 split) fo
 
 **Details of the Training**
 
-1. Model - ResNet18 (https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py)
+- Model - ResNet18 (https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py)
 
 **Data Augmentation**
 
-RandomCrop
-
-HorizontalFlip
-
-Rotate
-
-RGBShift
+- RandomCrop
+- HorizontalFlip
+- Rotate
+- RGBShift
 
 **Parameters and Hyperparameters**
 
