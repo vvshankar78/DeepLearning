@@ -1,63 +1,94 @@
-# ResNets, LR Schedulers and Higher Receptive Fields
-
-## Team Members
+# TinyImageNet training using ResNet18
 
 Vidya Shankar
 
-Regular Submission notebook:
-https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/CIFAR10_Custom_RESNET.ipynb
+
 
 
 ### Objective:
 
 ---
-**Write a custom Resnet like architecture as described below**
-
-1. PrepLayer - Conv 3x3 s1, p1) >> BN >> RELU [64k]
-2. Layer1 -
-   1. X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [128k]
-   2. R1 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [128k] 
-   3. Add(X, R1)
-3. Layer 2 -
-   1. Conv 3x3 [256k]
-   2. MaxPooling2D
-   3. BN
-   4. ReLU
-4. Layer 3 -
-   1. X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [512k]
-   2. R2 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [512k]
-   3. Add(X, R2)
-5. MaxPooling with Kernel Size 4
-6. FC Layer 
-7. SoftMax
-
-**Uses One Cycle Policy such that:**
-
-1. Total Epochs = 24
-2. Max at Epoch = 5
-3. LRMIN = FIND
-4. LRMAX = FIND
-5. NO Annihilation
-
-**Transform -RandomCrop 32, 32 (after padding of 4) >> FlipLR >> Followed by CutOut(8, 8)**
-
-**Batch size = 512**
+The objective is to train ResNet18 on tinyimagenet dataset (with 70/30 split) for 50 Epochs and achieve 50%+ Validation Accuracy.
 
 
+
+      
+    ├── data
+    |   ├── data_download.py 
+    |   ├── data_engine.py 
+    |   ├── data_transforms.py
+    ├── models  
+    |   ├── Resnet_Custom.py 
+    |   ├── Resnet.py
+    ├── gradcam  
+    |   ├── __init__.py 
+    |   ├── gradcam.py
+    |   ├── visualize.py
+    ├── utils.py
+    ├── train.py
+    ├── test1.py 
+    ├── config.py
+    ├── main.py     
+    ├── README.md  
+
+
+
+**Details of the Training **
+
+1. Model - ResNet18 (https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py)
+
+**Data Augmentation: **
+
+RandomCrop
+
+HorizontalFlip
+
+Rotate
+
+RGBShift
+
+**Parameters and Hyperparameters**
+
+- Model : ResNet18
+- Data: TinyImageNet
+- Loss Function: Cross Entropy Loss
+- Optimizer: SGD
+- Scheduler: One cycle policy
+- Batch Size: 256
+- Learning Rate: lr=0.1 (max_lr for ocp)
+- Epochs: 50
+- Max at Epoch = 10
+- Dropout: 0.
+- L1 decay: 0
+- L2 decay: 0
 
 ---
 
 ### The modular code  
 
-***main.py -*** all the functions needed to run the whole pipeline. 
+**A modular training module is created created to train the model. The folder structure of this module is shown below **
 
-***CIFAR10_Custom_RESNET.ipynb -*** calls individual model from main file 
+[Click here for the link to modular code](https://github.com/vvshankar78/Pytorch_Wrapper)
 
-***model folder*** - custom resnet model 
-
-***Experiments folder*** - notebooks with various experimentation done. 
-
-***support python files*** - train.py, test.py, test-train plots.py,  plot misclassified images.py
+```
+├── data
+|   ├── data_download.py 
+|   ├── data_engine.py 
+|   ├── data_transforms.py
+├── models  
+|   ├── Resnet_Custom.py 
+|   ├── Resnet.py
+├── gradcam  
+|   ├── __init__.py 
+|   ├── gradcam.py
+|   ├── visualize.py
+├── utils.py
+├── train.py
+├── test1.py 
+├── config.py
+├── main.py     
+├── README.md  
+```
 
 
 
@@ -81,7 +112,7 @@ def get_lr_finder(model, train_loader):
 get_lr_finder(model, train_loader)
 ```
 
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/lr_finder.jpg?raw=false" style="zoom: 75%;" />
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet/outputs/LR_finder.png?raw=false" style="zoom: 105%;" />
 
 
 
@@ -89,13 +120,9 @@ get_lr_finder(model, train_loader)
 
 The 1cycle learning rate policy changes the learning rate after every batch. step should be called after a batch has been used for training.
 
-In our case, we have 24 epochs and the need to peak at 5th epoch. So to peak at 5th epoch, we use the parameter pct_peak which is calculated by  - 
+In our case, we have 50 epochs and the need to peak at 10th epoch. 
 
-pct_peak = Epoch / peak epoch = 24/5 
 
-steps_per_epoch = len(train_loader) = 98 batches per epoch. 
-
-max_lr = 10  X suggested_lr (from lr_finder)
 
 ```
 def get_ocp_plot(train_loader, model, max_lr=0.1):   
@@ -115,44 +142,22 @@ def get_ocp_plot(train_loader, model, max_lr=0.1):
   return
 ```
 
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/OCP.jpg?raw=false" style="zoom: 100%;" />
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet/outputs/OCP.png?raw=false" style="zoom: 100%;" />
 
 
 
-### Parameters and Hyperparameters
-
-- Model : Custom_Resnet
-- Data: CIFAR10
-- Loss Function: Cross Entropy Loss
-- Optimizer: SGD
-- Scheduler: One cycle policy
-- Batch Size: 512
-- Learning Rate: lr=2.3e-2 (max_lr for ocp)
-- Epochs: 24
-- Dropout: 0.
-- L1 decay: 0
-- L2 decay: 0
+- 
 
 
 
 ### Results:
 
-| Trial                              | Train Accuracy | Test Accuracy | Notebook                                                     |
-| ---------------------------------- | -------------- | ------------- | ------------------------------------------------------------ |
-| Baseline - cutout 8x8              | 99.9%          | 88.9%         | https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/experiments/CIFAR10_Custom_RESNET_cutout_8x8.ipynb |
-| Cutout 16x16                       | 98.88%         | 88.94%        | https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/experiments/CIFAR10_Custom_RESNET_16_cutout.ipynb |
-| change in lr peak to max_lr=3.5e-2 | 99.86%         | 89.17%        | https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/experiments/CIFAR10_Custom_RESNET_reduced_lr.ipynb |
 
-The models seem to be over fitting. The additional set of experimentation is to look at regularization like l1, l2, drop outs etc., 
 
 
 
 
 ### <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/train-test-curves.png?raw=false" style="zoom: 100%;" />
-
-**Top-20 Misclassified Images:**
-
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/misclassified_images.png?raw=false" style="zoom: 100%;" />
 
 
 
@@ -163,6 +168,12 @@ The models seem to be over fitting. The additional set of experimentation is to 
 https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.OneCycleLR.html
 
 https://github.com/davidtvs/pytorch-lr-finder
+
+https://github.com/lokeshpara/Freecodecamp/blob/master/course_project/Assignment5___course_project.ipynb
+
+https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py
+
+
 
 
 
