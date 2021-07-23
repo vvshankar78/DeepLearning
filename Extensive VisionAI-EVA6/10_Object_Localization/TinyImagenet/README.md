@@ -124,12 +124,14 @@ def get_ocp_plot(train_loader, model, max_lr=0.1):
 
 ### Results:
 
+Train Accuracy : 99.7%
+
+Test Accuracy : 59.9 %
 
 
 
 
-
-### <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/09_Custom_Resnet/Images/train-test-curves.png?raw=false" style="zoom: 100%;" />
+### <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet/outputs/test-train-curves.png?raw=false" style="zoom: 100%;" />
 
 
 
