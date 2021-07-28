@@ -42,7 +42,7 @@ class RunYolo:
         img = cv2.imread(im_path)
         img = cv2.resize(img, None, fx=0.4, fy=0.4)
         height, width, channels = img.shape
-        cv2_imshow(img)
+        # cv2_imshow(img)
         # Detecting objects
         blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
         self.net.setInput(blob)
@@ -86,12 +86,19 @@ class RunYolo:
 
         exif = im.getexif()
         creation_time = exif.get(36867)
-        print('time of creation of image - ',creation_time)
-        print('Object classes in the image are - ', list(set(class_labels)))
-        print('image name - ',str.split(im_path,'/')[-1])
+        img_name = str.split(im_path,'/')[-1]
+        obj_classes =  list(set(class_labels))
+        # print('time of creation of image - ',creation_time)
+        # print('Object classes in the image are - ',obj_classes)
+        # print('image name - ',img_name)
+        output_dict = {"Image":img,
+                "Image_name": img_name,
+                "object_classes": obj_classes,
+                "Image_save_time" : creation_time
+                }
         # plt.imshow(img);
         cv2_imshow(img)
-        return img
+        return output_dict
 
 
 
