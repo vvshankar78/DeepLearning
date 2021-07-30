@@ -1,25 +1,27 @@
-# Object Localization
+# Dawn of Transformers
 
-## Team Members
+## Group-10 - Team Members
 
-Vidya Shankar
+Pratima, Vidya Shankar, Mahesh, Praveen 
 
 ---
 
 
 
-## [TinyImageNet](https://github.com/vvshankar78/DeepLearning/tree/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet)
+## [Spatial Transformer Network](https://github.com/vvshankar78/DeepLearning/tree/master/Extensive%20VisionAI-EVA6/12_Transformers/Spatial_Transformer_Network )
 
-1. Download this [TINY IMAGENET ](http://cs231n.stanford.edu/tiny-imagenet-200.zip)dataset. 
-2. Train ResNet18 on this dataset for 50 Epochs. Target 50%+ Validation Accuracy. 
-3. Used LR finder and One cycle policy for learning rates. 
+1. Implement that [Spatial Transformer Code](https://brsoff.github.io/tutorials/intermediate/spatial_transformer_tutorial.html) for CIFAR10 and submit
 
-
-
-## [CocoDataset Anchor Box using K-means](https://github.com/vvshankar78/DeepLearning/tree/master/Extensive%20VisionAI-EVA6/10_Object_Localization/Coco_Anchor_Box)
-
-1. Download [COCO DATASET ](http://images.cocodataset.org/annotations/annotations_trainval2017.zip) and understand the schema 
-2. class distribution (along with the class names) along with a graph 
-3. Calculate the Anchor Boxes for k = 3, 4, 5, 6 and draw them.
+   <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/12_Transformers/Spatial_Transformer_Network/images/fig-2-architecture.jpg?raw=false" style="zoom:50%;" />
 
 
+
+## ViT - Vision Transformers
+
+Describe using text and your drawn images, the classes in this [file](https://github.com/jeonsworld/ViT-pytorch/blob/main/models/modeling.py):
+
+- Block
+- Embeddings
+- MLP
+- Attention
+- Encoder
