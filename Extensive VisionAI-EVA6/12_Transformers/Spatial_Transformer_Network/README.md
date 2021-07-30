@@ -8,9 +8,9 @@ Vidya Shankar, Mahesh,
 
 ### Colab File Reference:
 
-https://colab.research.google.com/drive/1I7s6XTGJaQ8oyaOdG-9DNc6w3PF3Ened?usp=sharing
+github: https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/12_Transformers/Spatial_Transformer_Network/spatial_transformer_tutorial.ipynb
 
-
+colab: https://colab.research.google.com/github/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/12_Transformers/Spatial_Transformer_Network/spatial_transformer_tutorial.ipynb
 
 ### CNN's are not invariant -
 
@@ -267,10 +267,14 @@ Test set: Average loss: 1.0476, Accuracy: 6308/10000 (63%)
 ## Reference
 
 1. https://brsoff.github.io/tutorials/intermediate/spatial_transformer_tutorial.html
+
 2. https://debuggercafe.com/spatial-transformer-network-using-pytorch/
+
 3. https://arxiv.org/pdf/1506.02025v3.pdf
+
 4. https://www.youtube.com/watch?v=25dO4fLhEMY
-5. 
+
+   
 
 
 
