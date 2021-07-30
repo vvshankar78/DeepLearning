@@ -1,6 +1,8 @@
-# TinyImageNet training using ResNet18
+# YOLO object detection using Opencv with Python
 
-Vidya Shankar
+Vidya Shankar, Mahesh, Pratima, Praveen - Group 10
+
+---
 
 
 
@@ -8,130 +10,87 @@ Vidya Shankar
 ### Objective:
 
 ---
-The objective is to train ResNet18 on tinyimagenet dataset (with 70/30 split) for 50 Epochs and achieve 50%+ Validation Accuracy.
+- Run this above code provided in this this [link](https://pysource.com/2019/06/27/yolo-object-detection-using-opencv-with-python/)
+- Take an image of yourself, holding another object which is there in COCO data set (search for COCO classes to learn). 
+- Run this image through the code above. 
 
-**Details of the Training**
 
-- Model - ResNet18 (https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py)
 
-**Data Augmentation**
+Link for the notebook in Google Colabs. 
 
-- RandomCrop
-- HorizontalFlip
-- Rotate
-- RGBShift
 
-**Parameters and Hyperparameters**
-
-- Model : ResNet18
-- Data: TinyImageNet
-- Loss Function: Cross Entropy Loss
-- Optimizer: SGD
-- Scheduler: One cycle policy
-- Batch Size: 256
-- Learning Rate: lr=0.1 (max_lr for ocp)
-- Epochs: 50
-- Max at Epoch = 10
-- Dropout: 0.
-- L1 decay: 0
-- L2 decay: 0
 
 ---
 
-### The modular code  
+### The modular code - [Object Detection Toolkit](https://github.com/vvshankar78/Object_detection_toolkit/tree/master/OpenCV_Yolo)
 
-**A modular training module is created created to train the model. The folder structure of this module is shown below **
+**A modular module is created in the Object_detection Toolkit repository. The current code is folder OpenCV_Yolo **
 
-[Click here for the link to modular code](https://github.com/vvshankar78/Pytorch_Wrapper)
+[Click here for the link to modular code](https://github.com/vvshankar78/Object_detection_toolkit/tree/master/OpenCV_Yolo)
 
 ```
-├── data
-|   ├── data_download.py 
-|   ├── data_engine.py 
-|   ├── data_transforms.py
-├── models  
-|   ├── Resnet_Custom.py 
-|   ├── Resnet.py
-├── gradcam  
-|   ├── __init__.py 
-|   ├── gradcam.py
-|   ├── visualize.py
-├── utils.py
-├── train.py
-├── test1.py 
-├── config.py
-├── main.py     
-├── README.md  
+Object_detection_toolkit
+├── OpenCV_Yolo
+|   ├── main.py
+|   ├── coco.names
+|   ├── yolov3.cfg
 ```
 
 
 
-### Learning rate finder and One Cycle Policy
+main.py is the consolidation of following -
 
-The learning rate range test is a test that provides valuable information about the optimal learning rate. During a pre-training run, the learning rate is increased linearly or exponentially between two boundaries. The low initial learning rate allows the network to start converging and as the learning rate is increased it will eventually be too large and the network will diverge.
-
-The code implementation of lr finder is shown below. The output of lr finder provides the optimal learning rate. 
-
-```
-pip install torch-lr-finder
-
-def get_lr_finder(model, train_loader):
-  criterion = nn.CrossEntropyLoss()
-  optimizer = optim.SGD(model.parameters(), lr=1e-7, weight_decay=1e-2)
-  lr_finder = LRFinder(model, optimizer, criterion, device="cuda")
-  lr_finder.range_test(train_loader, end_lr=100, num_iter=100, step_mode="exp")
-  lr_finder.plot()
-  return
-  
-get_lr_finder(model, train_loader)
-```
-
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet/outputs/LR_finder.png?raw=false" style="zoom: 105%;" />
+1. download weights from the following [link](https://pjreddie.com/media/files/yolov3.weights)
+2. load the network
+3. load the classes
+4. show objects - read the input image and generate object detection. 
 
 
 
-**One Cycle policy**
+### How to run the object detection
 
-The 1cycle learning rate policy changes the learning rate after every batch. step should be called after a batch has been used for training.
-
-In our case, we have 50 epochs and the need to peak at 10th epoch. 
-
-
+1. Clone object detection tool kit and import main file.  
 
 ```
-def get_ocp_plot(train_loader, model, max_lr=0.1):   
-  EPOCHS = args.epochs
-  peak = args.peak
-  peak_pct = peak/EPOCHS
-  optimizer = optim.SGD(model.parameters(), lr=1e-7, weight_decay=1e-2)
-  scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=max_lr, 	 steps_per_epoch=len(train_loader), epochs=EPOCHS,pct_start=peak_pct, anneal_strategy='linear')
-  lrs = []
-
-  for i in range(EPOCHS*len(train_loader)):
-      optimizer.step()
-      lrs.append(optimizer.param_groups[0]["lr"])
-      scheduler.step()
-
-  plt.plot(lrs)
-  return
+!git clone "https://github.com/vvshankar78/Object_detection_toolkit.git"
+weights_url = "https://pjreddie.com/media/files/yolov3.weights"
 ```
 
-<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet/outputs/OCP.png?raw=false" style="zoom: 100%;" />
+2. Change the current working directory, if you are running on colabs, then use the following folder structure. 
+
+```
+my_path = '/content/Object_detection_toolkit/OpenCV_Yolo'
+os.chdir(my_path)
+```
+
+3. Run the main file. Downloads the weights file, initializes yolo network and loads classes. 
+
+```
+yolo = main.RunYolo(weights_url, my_path)
+```
+
+4. Now you are ready to do the inferences for your image. Load any images into inputs folder
+
+```
+im_path  = 'input/3.jpg'
+output_dict = yolo.show_object(im_path)
+```
+
+The output is a dictionary that provides image file along with image name, object classes found in the image. The output is shown below. 
+
+
+
+#### Output
+
+Image Name :  3.jpg 
+
+object classes in the image ['cow', 'person']
+
+![](https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/11_YOLO/OpenCV_Yolo/output/Screenshot_1.jpg?raw=False)
 
 
 
 
-
-### Results:
-
-Train Accuracy : 99.7%
-
-Test Accuracy : 59.9 %
-
-
-
-
-### <img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet/outputs/test-train-curves.png?raw=false" style="zoom: 100%;" />
 
 
 
