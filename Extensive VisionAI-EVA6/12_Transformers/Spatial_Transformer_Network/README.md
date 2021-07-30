@@ -1,10 +1,34 @@
-# Object Localization
+# Spatial Transformers
 
-## Team Members
+### Team Members
 
 Vidya Shankar, Mahesh, 
 
 ---
+
+
+
+### CNN's are not invariant -
+
+CNN (Convolution neural networks) are typically lace the invariance property to the input image. This means, they suffer from 
+
+- *Scale / size variation in the input data*.
+- *Rotation variation in the input data.*
+- *Clutter in the input data.*
+
+CNN performance are not good when there are variation though Max Pooling does help solve this issue for small variances, how ever they do not  help in making CNN's invariant when there is large variation in the data. To address this, we use Spatial Transformer Network (STN) which applies transformation to properly scale, resize and crop the image. 
+
+### What are Spatial Transformer Networks (STNs)
+
+STN's consist of Spatial transformer modules are neural network  (CNN and MLP) where in we apply transformations to properly scale, resize, crop an image. Since the transformation parameters come from a neural network module, they are learnable. STN's can be applied to both input images and feature maps. They can be inserted into any part of the CNN Architecture. 
+
+**STN's acts as an attention mechanism and knows where to focus on the input image. **
+
+
+
+![](https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/12_Transformers/Spatial_Transformer_Network/images/fig-1.jpg?raw=false)
+
+<img src="https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/10_Object_Localization/TinyImagenet/outputs/LR_finder.png?raw=false" style="zoom: 105%;" />
 
 
 
