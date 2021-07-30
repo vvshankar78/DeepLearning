@@ -16,11 +16,11 @@ Vidya Shankar, Mahesh, Pratima, Praveen - Group 10
 
 
 
-Link for the notebook in Google Colabs. 
+### **Link for the notebook**
+
+Git hub link - https://github.com/vvshankar78/DeepLearning/blob/master/Extensive%20VisionAI-EVA6/11_YOLO/OpenCV_Yolo/run_main_yolo_openCV.ipynb
 
 
-
----
 
 ### The modular code - [Object Detection Toolkit](https://github.com/vvshankar78/Object_detection_toolkit/tree/master/OpenCV_Yolo)
 
@@ -92,21 +92,9 @@ object classes in the image ['cow', 'person']
 
 
 
-
-
-
-
 #### References
 
-https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.OneCycleLR.html
-
-https://github.com/davidtvs/pytorch-lr-finder
-
-https://github.com/lokeshpara/Freecodecamp/blob/master/course_project/Assignment5___course_project.ipynb
-
-https://github.com/kuangliu/pytorch-cifar/blob/master/models/resnet.py
-
-
+https://pysource.com/2019/06/27/yolo-object-detection-using-opencv-with-python/
 
 
 
