@@ -2,7 +2,7 @@
 
 ### Team Members
 
-Vidya Shankar, Mahesh, 
+Pratima, Vidya Shankar, Mahesh, Praveen 
 
 ---
 
